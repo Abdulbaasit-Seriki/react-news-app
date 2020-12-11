@@ -7,11 +7,11 @@ class SearchBar extends React.Component {
         this.state = { searchInput: '' }
     }
 
-    handleChange(event) {
+    handleChange = (event) => {
         this.setState({ searchInput: event.target.value })
     }
 
-    async handleSubmission(event) {
+    handleSubmission  = async (event) => {
         event.preventDefault()
         await this.props.searchForInput(this.state.searchInput)
     }
