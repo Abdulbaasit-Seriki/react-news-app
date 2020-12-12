@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link, withRouter } from 'react-router-dom'
-import { Input, Menu } from 'semantic-ui-react'
+import { Menu } from 'semantic-ui-react'
 
 class Navbar extends React.Component {
     constructor(props) {
@@ -8,35 +8,32 @@ class Navbar extends React.Component {
         this.state = { activeItem: "home" }
     }
 
-    handleItemClick = (e, { name }) => this.setState({ activeItem: name })
+    // handleItemClick = (e, { name }) => this.setState({ activeItem: name })
 
     render() {
         const { activeItem } = this.state
 
         return (
             <Menu secondary>
-                <Link to='/trending'>
-                    <Menu.Item
-                    name='Trending News'
+                <Link className="item" to='/' 
+                    name='trending'
                     active={activeItem === 'trending'}
                     onClick={this.handleItemClick}
-                    />
+                >
+                    Trending News
                 </Link>
-                <Link to='/categories'>
-                    <Menu.Item
+                <Link className="item" to='/categories'
                         name='categories'
                         active={activeItem === 'categories'}
                         onClick={this.handleItemClick}
-                    />
+                >
+                    Categories
                 </Link>
-                <Menu.Menu position='right'>
-                    <Menu.Item>
-                        <Input icon='search' placeholder='Search...' />
-                    </Menu.Item>
-                </Menu.Menu>
             </Menu>
             
         )
     }
 
 }
+
+export default withRouter(Navbar)

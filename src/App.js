@@ -1,8 +1,13 @@
 import React from 'react'
+// eslint-disable-next-line
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import { Container } from 'semantic-ui-react'
 import { getSearchArticles, getTrendingNews } from './api'
-import { Header, Container } from 'semantic-ui-react'
-import ListArticle from './components/ListArticle'
+import Navbar from './components/Navbar'
 import SearchBar from './components/searchBar'
+import Homepage from './pages/home'
+import Categories from './pages/categories'
+
 
 class App extends React.Component {
 	constructor (props) {
@@ -33,9 +38,9 @@ class App extends React.Component {
 				articles: response.articles,
 				searchInput: input,
 				totalResults: response.totalResults,
-			});
+			})
 			} catch (err) {
-			this.setState({ errorFromApi: "Could not find any articles" });
+				this.setState({ errorFromApi: "Could not find any articles" })
 			}
 			this.setState({ loading: false })
 	}
@@ -46,16 +51,20 @@ class App extends React.Component {
 
 		return (
 			<Container>
-				<SearchBar searchForInput={this.searchForInput} />
-				{loading ? 
-						<p style={{ textAlign: "center" }}>Searching for articles...</p> : 
-						<Header as="h2" style={{ textAlign: "center", margin: 20 }}>
-							Trending News
-						</Header>
-				}
-			
-				{articles.length > 0 && <ListArticle articles={articles} />}
-				{errorFromApi && <p>{errorFromApi}</p>}
+				<Router>
+					<Navbar />
+					<SearchBar searchForInput={this.searchForInput} />
+					{loading && <p style={{ textAlign: "center" }}>Searching for articles...</p>  
+							
+					}
+
+					<Switch>
+						<Route path='/' exact component={ () => (
+							<Homepage articles={articles} errorFromApi={errorFromApi}/>
+						)}/>
+						<Route path='/categories' exact component={ () => <Categories />}/>
+					</Switch>
+				</Router> 
 			</Container>
 		)
 	}
